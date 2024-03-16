@@ -1,6 +1,6 @@
 "use client"
 import { log } from "console";
-import { NavItem } from '../../interface/navItemInterface';
+import { NavItem } from '../../interface/navigation/navItemInterface';
 import Link from "next/link";
 import { useState } from "react";
 export default function Header() {

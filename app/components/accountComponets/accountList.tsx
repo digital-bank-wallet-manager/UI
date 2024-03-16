@@ -1,16 +1,16 @@
 'use client'
 import { useEffect, useState } from "react";
-import { AccountInterface } from "@/app/interface/accountInterface";
+import { AccountInterface } from "@/app/interface/account/accountInterface";
 export default function AccountList() {
 
 
 
     const [accountList, setAccountList] = useState<AccountInterface[]>([]);
 
-    const url = 'http://localhost:8080/accounts';
+    const getAccountList = 'http://localhost:8080/accounts';
 
     useEffect(() => {
-        fetch(url)
+        fetch(getAccountList)
             .then(res => res.json())
             .then((data: AccountInterface[]) => {
                 setAccountList(data)
@@ -19,10 +19,10 @@ export default function AccountList() {
 
     return (
         <div>
-            <ul className="flex flex-col  gap-12 p-3 overflow-auto max-h-max">
+            <ul className="flex flex-col  gap-5 py-8 px-3  overflow-auto max-h-max">
                 {accountList.map((a) => (
                     <li key={a.id}>
-                        <div className="flex flex-row justify-between bg-white rounded-xl gap-96 py-4 px-3">
+                        <button type="button" className="flex flex-row justify-between bg-white rounded-xl gap-96 py-4 px-3 hover:shadow-xl duration-200 w-full">
                             <p className="pl-4">
                                 {a.firstName}
                             </p>
@@ -32,7 +32,7 @@ export default function AccountList() {
                             <p className="pr-4">
                                 {a.monthlyPay} <span>MGA</span>
                             </p>
-                        </div>
+                        </button>
                     </li>
                 ))}
             </ul>
