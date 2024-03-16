@@ -1,7 +1,7 @@
 "use client"
 import Link from "next/link";
 import Header from "../components/navgiationComponents/header";
-import AccountFormHome from "../components/accountComponets/accountFormHome";
+import AccountForm from "../components/accountComponets/accountForm";
 import { FaPlus } from "react-icons/fa";
 import { FaFacebook } from "react-icons/fa";
 import { RiInstagramFill } from "react-icons/ri";
@@ -27,7 +27,7 @@ const HomePage: React.FC = () => {
         <div>
                {
                     showForm &&
-                    (<AccountFormHome showForm={showForm} setShowForm={setShowForm}></AccountFormHome>)
+                    (<AccountForm showForm={showForm} setShowForm={setShowForm}></AccountForm>)
                 }
 
             <main className={`${parentClass}`}>
