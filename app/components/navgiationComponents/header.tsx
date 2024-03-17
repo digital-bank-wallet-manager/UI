@@ -10,7 +10,7 @@ export default function Header() {
         { item: "Transactions", path: "/transactions" },
         { item: "Setting", path: "/setting" },
     ]
-    const [currentItem,setCurrentItem] = useState('Home');
+    const [currentItem,setCurrentItem] = useState('');
 
     const handleNavItem = (Item : string) => {
         setCurrentItem(Item);

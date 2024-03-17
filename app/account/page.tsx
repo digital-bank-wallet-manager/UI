@@ -2,7 +2,7 @@
 import Header from "../components/navgiationComponents/header";
 import { useEffect, useState } from "react";
 import AccountList from "../components/accountComponets/accountList";
-import AccountForm from "../components/accountComponets/accountForm";
+import AccountFormAccount from "../components/accountComponets/accountFormAccount";
 import { AccountInterface } from "../interface/account/accountInterface";
 import { FaPlus } from "react-icons/fa";
 import { CiSearch } from "react-icons/ci";
@@ -10,7 +10,7 @@ export default function Account() {
     const [search, setSearch] = useState('');
     const [showForm, setShowForm] = useState(false);
     const [account, setAccount] = useState<AccountInterface[]>([])
-   
+
 
     const handleButton = () => {
         setShowForm(true)
@@ -22,11 +22,11 @@ export default function Account() {
         <div>
             {
                 showForm &&
-                (<AccountForm showForm={showForm} setShowForm={setShowForm}></AccountForm>)
+                (<AccountFormAccount showForm={showForm} setShowForm={setShowForm}></AccountFormAccount>)
             }
             <main className={`${behindForm}`}>
                 <Header />
-                <div className="flex flex-row items-center  gap-10 justify-center bg-slate-200 h-screen">
+                <div className="flex flex-row pt-32 gap-24 bg-slate-200 h-screen pl-16 pr-16">
                     <section>
                         <div className="flex flex-col gap-10 rounded-2xl bg-red-600 border-red-700 border-solid border-2  items-center  justify-center py-10" style={{ width: "350px", boxShadow: '0px 0px 8px 0px black' }}>
                             <h1 className="text-2xl border-solid border-white border-b-2 w-full pl-5 text-white">Account</h1>
@@ -40,6 +40,17 @@ export default function Account() {
                         </div>
                     </section>
                     <section>
+                        <div className="flex flex-row  jusitfy-between border-solid border-b-2 border-black gap-64 py-4 px-3">
+                            <p>
+                                Name
+                            </p>
+                            <p className="border-solid border-black border-l-2 border-r-2 px-32 ">
+                                Reference
+                            </p>
+                            <p>
+                                Pay
+                            </p>
+                        </div>
                         <AccountList />
                     </section>
                 </div>

@@ -1,6 +1,7 @@
 'use client'
 import { useEffect, useState } from "react";
 import { AccountInterface } from "@/app/interface/account/accountInterface";
+import '@/app/components/accountComponets/account.css'
 export default function AccountList() {
 
 
@@ -19,22 +20,25 @@ export default function AccountList() {
 
     return (
         <div>
-            <ul className="flex flex-col  gap-5 py-8 px-3  overflow-auto max-h-max">
-                {accountList.map((a) => (
-                    <li key={a.id}>
-                        <button type="button" className="flex flex-row justify-between bg-white rounded-xl gap-96 py-4 px-3 hover:shadow-xl duration-200 w-full">
-                            <p className="pl-4">
-                                {a.firstName}
-                            </p>
-                            <p>
-                                {a.accountRef}
-                            </p>
-                            <p className="pr-4">
-                                {a.monthlyPay} <span>MGA</span>
-                            </p>
-                        </button>
-                    </li>
-                ))}
+            <ul className="flex flex-col py-8 gap-5 px-3 overflow-auto  custom-scrollbar" style={{ maxHeight: '70vh' }}>
+                {accountList.length === 0 ? (<p className="text-center text-slate-500">No account registered</p>) : (
+                    accountList.map((a) => (
+                        <li key={a.id}>
+                            <button type="button" className="flex flex-row justify-between bg-white rounded-xl py-4 px-3 hover:shadow-xl duration-200 w-full">
+                                <p>
+                                    {a.firstName}
+                                </p>
+                                <p>
+                                    {a.accountRef}
+                                </p>
+                                <p>
+                                    {a.monthlyPay} <span>MGA</span>
+                                </p>
+                            </button>
+                        </li>
+                    ))
+                )
+                }
             </ul>
         </div>
     )

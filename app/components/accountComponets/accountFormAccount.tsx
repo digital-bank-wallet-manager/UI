@@ -5,7 +5,7 @@ import { MdCancel } from "react-icons/md";
 import { AccountFormInterface } from "@/app/interface/account/accountFormHomeInterface";
 import { AccountInterface } from "@/app/interface/account/accountInterface";
 
-const AccountForm: React.FC<AccountFormInterface> = ({ showForm, setShowForm }) => {
+const AccountFormAccount: React.FC<AccountFormInterface> = ({ showForm, setShowForm }) => {
 
     const [lName, setLName] = useState<string>('');
     const [fName, setFName] = useState<string>('');
@@ -14,29 +14,34 @@ const AccountForm: React.FC<AccountFormInterface> = ({ showForm, setShowForm }) 
     const [currency, setCurrency] = useState<string>('MGA');
     const [account, setAccount] = useState<AccountInterface[]>([]);
 
+
     const insertAccount = 'http://localhost:8080/accounts/save';
 
     const handleLNameChange = (ev: React.ChangeEvent<HTMLInputElement>) => {
-       setLName(ev.target.value)
-       console.log(lName)
+        setLName(ev.target.value);
     };
     const handleFNameChange = (ev: React.ChangeEvent<HTMLInputElement>) => {
-       setFName(ev.target.value)
-       console.log(fName)
+        setFName(ev.target.value);
     };
     const handleBDate = (ev: React.ChangeEvent<HTMLInputElement>) => {
-       setBDate(ev.target.value)
-       console.log(bDate)
+        const selectedDate = new Date(ev.target.value);
+        const limitDate = new Date('2003-12-31');
+
+        if (selectedDate > limitDate) {
+            alert('You must be up than 21 years old');
+            setBDate('');
+        } else {
+            setBDate(ev.target.value);
+        }
     };
     const handleLMonthly = (ev: React.ChangeEvent<HTMLInputElement>) => {
-       const val = parseInt(ev.target.value)
-       setMonthlySalary(val)
-       console.log(monthlySalary)
+        const val = parseInt(ev.target.value);
+        setMonthlySalary(val);
     };
     const handleCurrency = (ev: React.ChangeEvent<HTMLInputElement>) => {
-       setCurrency(ev.target.value)
+        setCurrency(ev.target.value);
     };
-    
+
 
 
 
@@ -45,33 +50,32 @@ const AccountForm: React.FC<AccountFormInterface> = ({ showForm, setShowForm }) 
     }
 
 
-const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (!lName || !fName || !bDate || !monthlySalary || !currency) {
-        alert('Veuillez remplir tout le formulaire svp');
-    } else {
-        alert('success')
-        const accountObject ={
-            firstName:fName,
-            lastName:lName,
-            birthDate:bDate,
-            mounthlyPay:monthlySalary
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        if (!lName || !fName || !bDate || !monthlySalary || !currency) {
+            alert('Please complet the entire form');
+        } else {
+            const accountObject = {
+                firstName: fName,
+                lastName: lName,
+                birthdate: bDate,
+                monthlyPay: monthlySalary
+            }
+            fetch(insertAccount, {
+                method: 'POST',
+                headers: {
+                    'content-type': 'application/json',
+                },
+                body: JSON.stringify(accountObject),
+            })
+                .then(res => res.json())
+                .then((data: AccountInterface[]) => {
+                    setAccount(data);
+                    window.location.href = '/account'
+                })
+                .catch(error => console.error('Erreur:', error));
         }
-        fetch(insertAccount, {
-            method: 'POST',
-            headers: {
-                'content-type': 'application/json',
-            },
-            body: JSON.stringify(accountObject),
-        })
-        .then(res => res.json())
-        .then((data: AccountInterface[]) => {
-            setAccount(data);
-            console.log(account);
-        })
-        .catch(error => console.error('Erreur:', error));
-    }
-};
+    };
 
 
     return (
@@ -123,4 +127,4 @@ const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     )
 }
 
-export default AccountForm;
+export default AccountFormAccount;
