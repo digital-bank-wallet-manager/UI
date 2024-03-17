@@ -5,25 +5,44 @@ import { MdCancel } from "react-icons/md";
 import { AccountFormInterface } from "@/app/interface/account/accountFormHomeInterface";
 import { AccountInterface } from "@/app/interface/account/accountInterface";
 
-const AccountForm: React.FC<AccountFormInterface> = ({ showForm, setShowForm }) => {
+const AccountFormAccount: React.FC<AccountFormInterface> = ({ showForm, setShowForm }) => {
 
     const [lName, setLName] = useState<string>('');
     const [fName, setFName] = useState<string>('');
     const [bDate, setBDate] = useState<string>('');
-    const [monthlySalary, setMonthlySalary] = useState<string>();
+    const [monthlySalary, setMonthlySalary] = useState(0);
     const [currency, setCurrency] = useState<string>('MGA');
     const [account, setAccount] = useState<AccountInterface[]>([]);
 
+
     const insertAccount = 'http://localhost:8080/accounts/save';
 
-
-    const handleInputHChange = (ev: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = ev.target;
-        setAccount(prevState => ({
-            ...prevState,
-            [name]: value,
-        }));
+    const handleLNameChange = (ev: React.ChangeEvent<HTMLInputElement>) => {
+        setLName(ev.target.value);
     };
+    const handleFNameChange = (ev: React.ChangeEvent<HTMLInputElement>) => {
+        setFName(ev.target.value);
+    };
+    const handleBDate = (ev: React.ChangeEvent<HTMLInputElement>) => {
+        const selectedDate = new Date(ev.target.value);
+        const limitDate = new Date('2003-12-31');
+
+        if (selectedDate > limitDate) {
+            alert('You must be up than 21 years old');
+            setBDate('');
+        } else {
+            setBDate(ev.target.value);
+        }
+    };
+    const handleLMonthly = (ev: React.ChangeEvent<HTMLInputElement>) => {
+        const val = parseInt(ev.target.value);
+        setMonthlySalary(val);
+    };
+    const handleCurrency = (ev: React.ChangeEvent<HTMLInputElement>) => {
+        setCurrency(ev.target.value);
+    };
+
+
 
 
     const handleButtonToCancelForm = () => {
@@ -31,25 +50,33 @@ const AccountForm: React.FC<AccountFormInterface> = ({ showForm, setShowForm }) 
     }
 
 
-    const handleSubmit = (e: React.ChangeEvent<HTMLFormElement>) => {
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
         if (!lName || !fName || !bDate || !monthlySalary || !currency) {
-            alert('remplis otut le formulaire svp');
-            e.preventDefault();
+            alert('Please complet the entire form');
         } else {
-            alert('success')
+            const accountObject = {
+                firstName: fName,
+                lastName: lName,
+                birthdate: bDate,
+                monthlyPay: monthlySalary
+            }
             fetch(insertAccount, {
                 method: 'POST',
                 headers: {
                     'content-type': 'application/json',
-                }
+                },
+                body: JSON.stringify(accountObject),
             })
                 .then(res => res.json())
                 .then((data: AccountInterface[]) => {
-                    setAccount(data)
-                    console.log(account)
+                    setAccount(data);
+                    window.location.href = '/account'
                 })
+                .catch(error => console.error('Erreur:', error));
         }
-    }
+    };
+
 
     return (
         <div>
@@ -61,26 +88,26 @@ const AccountForm: React.FC<AccountFormInterface> = ({ showForm, setShowForm }) 
                         <div className="flex flex-col gap-2">
                             <p className="text-xl text-white">Last Name</p>
                             <div className="border-solid border-2 border-white rounded p-1">
-                                <input type="text" placeholder="Last name" value={lName} onChange={handleInputHChange} className="w-96 outline-none text-xl bg-red-600 rounded px-2 placeholder-slate-700 text-white" />
+                                <input type="text" placeholder="Last name" value={lName} onChange={handleLNameChange} className="w-96 outline-none text-xl bg-red-600 rounded px-2 placeholder-slate-700 text-white" />
                             </div>
                         </div>
                         <div className="flex flex-col gap-2">
                             <p className="text-xl text-white">First Name</p>
                             <div className="border-solid border-2 border-white rounded p-1">
-                                <input type="text" placeholder="First name" value={fName} onChange={(ev) => { setFName(ev.target.value) }} className="w-96 outline-none text-xl bg-red-600 rounded px-2 placeholder-slate-700 text-white" />
+                                <input type="text" placeholder="First name" value={fName} onChange={handleFNameChange} className="w-96 outline-none text-xl bg-red-600 rounded px-2 placeholder-slate-700 text-white" />
                             </div>
                         </div>
                         <div className="flex flex-col gap-2">
                             <p className="text-xl text-white">Birth date</p>
                             <div className="border-solid border-2 border-white rounded p-1">
-                                <input type="date" value={bDate} onChange={(ev) => { setBDate(ev.target.value) }} className="w-96 outline-none text-xl bg-red-600 rounded pl-2 placeholder-slate-700 text-white" />
+                                <input type="date" value={bDate} onChange={handleBDate} className="w-96 outline-none text-xl bg-red-600 rounded pl-2 placeholder-slate-700 text-white" />
                             </div>
                         </div>
                         <div className="flex flex-row gap-5 ">
                             <div className="flex flex-col gap-2">
                                 <p className="text-xl text-white">Monthly salary</p>
                                 <div className="border-solid border-2 border-white rounded p-1">
-                                    <input type="number" placeholder="0" value={monthlySalary} onChange={(ev) => { setMonthlySalary(ev.target.value) }} className=" outline-none text-xl bg-red-600 rounded px-2 placeholder-slate-700 text-white" />
+                                    <input type="number" placeholder="0" value={monthlySalary} onChange={handleLMonthly} className=" outline-none text-xl bg-red-600 rounded px-2 placeholder-slate-700 text-white" />
                                 </div>
                             </div>
                             <div className="flex flex-col gap-2">
@@ -100,4 +127,4 @@ const AccountForm: React.FC<AccountFormInterface> = ({ showForm, setShowForm }) 
     )
 }
 
-export default AccountForm;
+export default AccountFormAccount;
