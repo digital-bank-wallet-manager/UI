@@ -27,7 +27,7 @@ const Account:React.FC<AccountDetailsProps>= ({account}) => {
                 <Header />
                 <div className="flex flex-row pt-32 gap-24 bg-slate-200 h-screen pl-16 pr-16">
                     <section>
-                        <div className="flex flex-col gap-10 rounded-2xl bg-red-600 border-red-700 border-solid border-2  items-center  justify-center py-10" style={{ width: "350px", boxShadow: '0px 0px 8px 0px black' }}>
+                        <div className="flex flex-col gap-10 rounded-2xl bg-red-600 items-center  justify-center py-10" style={{ width: "350px"}}>
                             <h1 className="text-2xl border-solid border-white border-b-2 w-full pl-5 text-white">Account</h1>
                             <button type="button" onClick={handleButton} className="border-solid border-white bg-white border-2 rounded py-2  hover:bg-slate-200 hover:border-slate-200  transition duration-200 flex flex-row items-center gap-2  text-black  justify-center" style={{ width: "270px" }}>
                                 <FaPlus /> Add
