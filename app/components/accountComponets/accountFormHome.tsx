@@ -1,5 +1,4 @@
 "use client"
-import Currency from "./currency";
 import { useState, useEffect } from "react";
 import { MdCancel } from "react-icons/md";
 import { AccountFormInterface } from "@/app/interface/account/accountFormHomeInterface";
@@ -37,11 +36,6 @@ const AccountFormHome: React.FC<AccountFormInterface> = ({ showForm, setShowForm
         const val = parseInt(ev.target.value);
         setMonthlySalary(val);
     };
-    const handleCurrency = (ev: React.ChangeEvent<HTMLInputElement>) => {
-        setCurrency(ev.target.value);
-    };
-
-
 
 
     const handleButtonToCancelForm = () => {
@@ -52,7 +46,7 @@ const AccountFormHome: React.FC<AccountFormInterface> = ({ showForm, setShowForm
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (!lName || !fName || !bDate || !monthlySalary || !currency) {
-            alert('Please completthe entire form');
+            alert('Please complet the entire form');
         } else {
             const accountObject = {
                 firstName: fName,
@@ -120,7 +114,7 @@ const AccountFormHome: React.FC<AccountFormInterface> = ({ showForm, setShowForm
                         </div>
                     </div>
                     <button type="submit" className="border-solid border-white border-2 rounded px-2 py-2 w-56 bg-white hover:bg-slate-200 hover:border-slate-200  transition duration-200 text-xl text-black ">
-                        <a href="/account"> Add account</a>
+                        Add account
                     </button>
                 </form>
             </div>

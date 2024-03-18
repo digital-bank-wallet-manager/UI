@@ -1,9 +1,9 @@
 "use client"
-import Currency from "./currency";
 import { useState, useEffect } from "react";
 import { MdCancel } from "react-icons/md";
 import { AccountFormInterface } from "@/app/interface/account/accountFormHomeInterface";
 import { AccountInterface } from "@/app/interface/account/accountInterface";
+import { DiVim } from "react-icons/di";
 
 const AccountFormAccount: React.FC<AccountFormInterface> = ({ showForm, setShowForm }) => {
 
@@ -13,7 +13,7 @@ const AccountFormAccount: React.FC<AccountFormInterface> = ({ showForm, setShowF
     const [monthlySalary, setMonthlySalary] = useState(0);
     const [currency, setCurrency] = useState<string>('MGA');
     const [account, setAccount] = useState<AccountInterface[]>([]);
-
+    const [clicked,setClicked] = useState(false)
 
     const insertAccount = 'http://localhost:8080/accounts/save';
 
@@ -38,11 +38,6 @@ const AccountFormAccount: React.FC<AccountFormInterface> = ({ showForm, setShowF
         const val = parseInt(ev.target.value);
         setMonthlySalary(val);
     };
-    const handleCurrency = (ev: React.ChangeEvent<HTMLInputElement>) => {
-        setCurrency(ev.target.value);
-    };
-
-
 
 
     const handleButtonToCancelForm = () => {
@@ -87,8 +82,8 @@ const AccountFormAccount: React.FC<AccountFormInterface> = ({ showForm, setShowF
                     <div className="flex flex-col gap-2">
                         <div className="flex flex-col gap-2">
                             <p className="text-xl text-white">Last Name</p>
-                            <div className="border-solid border-2 border-white rounded p-1">
-                                <input type="text" placeholder="Last name" value={lName} onChange={handleLNameChange} className="w-96 outline-none text-xl bg-red-600 rounded px-2 placeholder-slate-700 text-white" />
+                            <div className="border-solid border-2 border-white rounded p-1 hover:border-solid hover:border-slate-400 hover:border-2 duration-300">
+                                <input type="text" placeholder="Last name" value={lName} onChange={handleLNameChange} className="w-96 outline-none text-xl bg-red-600 rounded px-2 placeholder-slate-700 text-white " />
                             </div>
                         </div>
                         <div className="flex flex-col gap-2">
