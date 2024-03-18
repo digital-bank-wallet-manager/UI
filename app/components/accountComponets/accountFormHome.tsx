@@ -1,5 +1,4 @@
 "use client"
-import Currency from "./currency";
 import { useState, useEffect } from "react";
 import { MdCancel } from "react-icons/md";
 import { AccountFormInterface } from "@/app/interface/account/accountFormHomeInterface";

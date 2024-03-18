@@ -1,5 +1,4 @@
 "use client"
-import Currency from "./currency";
 import { useState, useEffect } from "react";
 import { MdCancel } from "react-icons/md";
 import { AccountFormInterface } from "@/app/interface/account/accountFormHomeInterface";
@@ -39,11 +38,6 @@ const AccountFormAccount: React.FC<AccountFormInterface> = ({ showForm, setShowF
         const val = parseInt(ev.target.value);
         setMonthlySalary(val);
     };
-    const handleCurrency = (ev: React.ChangeEvent<HTMLInputElement>) => {
-        setCurrency(ev.target.value);
-    };
-
-
 
 
     const handleButtonToCancelForm = () => {
