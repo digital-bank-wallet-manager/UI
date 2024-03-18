@@ -6,11 +6,10 @@ import AccountFormAccount from "../components/accountComponets/accountFormAccoun
 import { AccountInterface } from "../interface/account/accountInterface";
 import { FaPlus } from "react-icons/fa";
 import { CiSearch } from "react-icons/ci";
-export default function Account() {
+import  { AccountDetailsProps } from "../components/accountComponets/accountDetails";
+const Account:React.FC<AccountDetailsProps>= ({account}) => {
     const [search, setSearch] = useState('');
     const [showForm, setShowForm] = useState(false);
-    const [account, setAccount] = useState<AccountInterface[]>([])
-
 
     const handleButton = () => {
         setShowForm(true)
@@ -40,21 +39,13 @@ export default function Account() {
                         </div>
                     </section>
                     <section>
-                        <div className="flex flex-row  jusitfy-between border-solid border-b-2 border-black gap-64 py-4 px-3">
-                            <p>
-                                Name
-                            </p>
-                            <p className="border-solid border-black border-l-2 border-r-2 px-32 ">
-                                Reference
-                            </p>
-                            <p>
-                                Pay
-                            </p>
-                        </div>
-                        <AccountList />
+                        
+                        <AccountList/>
                     </section>
                 </div>
             </main>
         </div>
     )
 }
+
+export default Account;
