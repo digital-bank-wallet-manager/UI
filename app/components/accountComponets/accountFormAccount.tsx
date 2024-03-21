@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import { MdCancel } from "react-icons/md";
 import { AccountFormInterface } from "@/app/interface/account/accountFormHomeInterface";
 import { AccountInterface } from "@/app/interface/account/accountInterface";
-import { DiVim } from "react-icons/di";
 
 const AccountFormAccount: React.FC<AccountFormInterface> = ({ showForm, setShowForm }) => {
 
@@ -13,7 +12,6 @@ const AccountFormAccount: React.FC<AccountFormInterface> = ({ showForm, setShowF
     const [monthlySalary, setMonthlySalary] = useState(0);
     const [currency, setCurrency] = useState<string>('MGA');
     const [account, setAccount] = useState<AccountInterface[]>([]);
-    const [clicked,setClicked] = useState(false)
 
     const insertAccount = 'http://localhost:8080/accounts/save';
 
@@ -34,7 +32,7 @@ const AccountFormAccount: React.FC<AccountFormInterface> = ({ showForm, setShowF
             setBDate(ev.target.value);
         }
     };
-    const handleLMonthly = (ev: React.ChangeEvent<HTMLInputElement>) => {
+    const handleMonthly = (ev: React.ChangeEvent<HTMLInputElement>) => {
         const val = parseInt(ev.target.value);
         setMonthlySalary(val);
     };
@@ -102,7 +100,7 @@ const AccountFormAccount: React.FC<AccountFormInterface> = ({ showForm, setShowF
                             <div className="flex flex-col gap-2">
                                 <p className="text-xl text-white">Monthly salary</p>
                                 <div className="border-solid border-2 border-white rounded p-1">
-                                    <input type="number" placeholder="0" value={monthlySalary} onChange={handleLMonthly} className=" outline-none text-xl bg-red-600 rounded px-2 placeholder-slate-700 text-white" />
+                                    <input type="number" placeholder="0" value={monthlySalary} onChange={handleMonthly} className=" outline-none text-xl bg-red-600 rounded px-2 placeholder-slate-700 text-white" />
                                 </div>
                             </div>
                             <div className="flex flex-col gap-2">

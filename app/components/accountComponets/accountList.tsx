@@ -1,16 +1,25 @@
 import React, { useEffect, useState } from "react";
 import { AccountInterface } from "@/app/interface/account/accountInterface";
+import { BalanceInterface } from "@/app/interface/balance/balanceInterface";
 import '@/app/components/accountComponets/account.css';
 import AccountDetails from "./accountDetails";
 
 const AccountList = () => {
+
     const [selectedAccount, setSelectedAccount] = useState<AccountInterface>();
+    const [selectedBalance, setSelectedBalance] = useState<BalanceInterface[]>([]);
     const [accountList, setAccountList] = useState<AccountInterface[]>([]);
 
     const getAccountList = 'http://localhost:8080/accounts';
+    const getAccountBalance = 'http://localhost:8080/account/balance/';
 
     const handleAccountDetails = (account: AccountInterface) => {
         setSelectedAccount(account);
+        fetch(`${getAccountBalance}${account.id}`)
+            .then(res => res.json())
+            .then((data: BalanceInterface[]) => {
+                setSelectedBalance(data);
+            })
     };
 
     useEffect(() => {
@@ -25,11 +34,11 @@ const AccountList = () => {
 
     return (
         <div>
-            {selectedAccount ? (
-                <AccountDetails account={selectedAccount} />
+            {selectedAccount && selectedBalance && selectedBalance.length > 0 ? (
+                <AccountDetails account={selectedAccount} balance={selectedBalance[0]} />
             ) : (accountList.length === 0 ? (
-                <div className="flex flex-col items-center gap-10"> 
-                        <div className="flex flex-row  jusitfy-between border-solid border-b-2 border-black px-10 gap-64  py-4 ">
+                <div className="flex flex-col items-center gap-10">
+                    <div className="flex flex-row  jusitfy-between border-solid border-b-2 border-black px-10 gap-64  py-4 ">
                         <p>
                             Name
                         </p>
@@ -70,7 +79,6 @@ const AccountList = () => {
                         }
                     </ul>
                 </div>
-
             ))
             }
         </div>

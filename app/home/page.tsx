@@ -50,7 +50,7 @@ const HomePage: React.FC = () => {
                         </div>
                     </div>
                     <div className="flex flex-col items-center">
-                        <h1 className="text-4xl border-b-2 border-red-700 pb-2">
+                        <h1 className="text-4xl border-b-2 border-red-600 pb-2">
                             What we manage?
                         </h1>
                         <div className="flex flex-col gap-20 items-center my-5">
