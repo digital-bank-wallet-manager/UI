@@ -1,12 +1,14 @@
 import React from "react";
 import { AccountInterface } from "@/app/interface/account/accountInterface";
 import { IoChevronBackSharp } from "react-icons/io5";
+import { BalanceInterface } from "@/app/interface/balance/balanceInterface";
 
 export interface AccountDetailsProps {
     account: AccountInterface;
+    balance: BalanceInterface;
 }
 
-const AccountDetails: React.FC<AccountDetailsProps> = ({ account }) => {
+const AccountDetails: React.FC<AccountDetailsProps> = ({ account , balance }) => {
     const handleBackButton = () => {
         window.location.href='/account';
     }
@@ -20,6 +22,7 @@ const AccountDetails: React.FC<AccountDetailsProps> = ({ account }) => {
                 <p>Date of birth: {account.birthdate}</p>
                 <p>Monthly Pay: {account.monthlyPay} MGA</p>
                 <p>Account Reference: {account.accountRef}</p>
+                <p>Actual Balance: {balance.amount}</p>
                 <button type="button" className="self-end text-xl text-black duration-75 hover:scale-110 flex flex-row items-center" onClick={handleBackButton}><IoChevronBackSharp /> Back</button>
             </div>
         </div>
