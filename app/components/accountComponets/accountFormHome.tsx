@@ -1,7 +1,7 @@
 "use client"
 import { useState, useEffect } from "react";
 import { MdCancel } from "react-icons/md";
-import { AccountFormInterface } from "@/app/interface/account/accountFormHomeInterface";
+import { AccountFormInterface } from "@/app/interface/account/accountFormInterface";
 import { AccountInterface } from "@/app/interface/account/accountInterface";
 
 const AccountFormHome: React.FC<AccountFormInterface> = ({ showForm, setShowForm }) => {

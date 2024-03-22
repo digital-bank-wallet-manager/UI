@@ -6,8 +6,7 @@ import AccountFormAccount from "../components/accountComponets/accountFormAccoun
 import { AccountInterface } from "../interface/account/accountInterface";
 import { FaPlus } from "react-icons/fa";
 import { CiSearch } from "react-icons/ci";
-import  { AccountDetailsProps } from "../components/accountComponets/accountDetails";
-const Account:React.FC<AccountDetailsProps>= ({account}) => {
+const Account = () => {
     const [search, setSearch] = useState('');
     const [showForm, setShowForm] = useState(false);
 

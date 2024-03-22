@@ -1,7 +1,7 @@
 "use client"
 import { useState, useEffect } from "react";
 import { MdCancel } from "react-icons/md";
-import { AccountFormInterface } from "@/app/interface/account/accountFormHomeInterface";
+import { AccountFormInterface } from "@/app/interface/account/accountFormInterface";
 import { AccountInterface } from "@/app/interface/account/accountInterface";
 
 const AccountFormAccount: React.FC<AccountFormInterface> = ({ showForm, setShowForm }) => {
@@ -39,7 +39,7 @@ const AccountFormAccount: React.FC<AccountFormInterface> = ({ showForm, setShowF
 
 
     const handleButtonToCancelForm = () => {
-        setShowForm(false)
+        setShowForm(false);
     }
 
 
@@ -80,7 +80,7 @@ const AccountFormAccount: React.FC<AccountFormInterface> = ({ showForm, setShowF
                     <div className="flex flex-col gap-2">
                         <div className="flex flex-col gap-2">
                             <p className="text-xl text-white">Last Name</p>
-                            <div className="border-solid border-2 border-white rounded p-1 hover:border-solid hover:border-slate-400 hover:border-2 duration-300">
+                            <div className="border-solid border-2 border-white rounded p-1">
                                 <input type="text" placeholder="Last name" value={lName} onChange={handleLNameChange} className="w-96 outline-none text-xl bg-red-600 rounded px-2 placeholder-slate-700 text-white " />
                             </div>
                         </div>
