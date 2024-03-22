@@ -12,6 +12,7 @@ const AccountList = () => {
 
     const getAccountList = 'http://localhost:8080/accounts';
     const getAccountBalance = 'http://localhost:8080/account/balance/';
+    const getAccountBalanceAtPeriod = 'http://localhost:8080/account/balance/';
 
     const handleAccountDetails = (account: AccountInterface) => {
         setSelectedAccount(account);

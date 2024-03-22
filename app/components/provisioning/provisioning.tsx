@@ -3,8 +3,14 @@ import { useState, useEffect } from "react";
 import { MdCancel } from "react-icons/md";
 import { ProvisioningInterface } from "@/app/interface/provisioning/provisioningInterface";
 import { ProvisioningFormInterface } from "@/app/interface/provisioning/provisioningFormInterface";
+import { AccountInterface } from "@/app/interface/account/accountInterface";
 
-const Provisioning: React.FC<ProvisioningFormInterface> = ({ showFormProvisioning, setShowFormProvisioning }) => {
+export interface provisioningProps{
+    formProvisioning: ProvisioningFormInterface;
+    account: AccountInterface;
+}
+
+const Provisioning: React.FC<provisioningProps> = ({ formProvisioning ,account}) => {
 
     const [amount, setAmount] = useState(0);
     const [reason, setReason] = useState<string>('');
@@ -22,26 +28,31 @@ const Provisioning: React.FC<ProvisioningFormInterface> = ({ showFormProvisionin
         setReason(ev.target.value);
     };
     const handleEffectiveDate = (ev: React.ChangeEvent<HTMLInputElement>) => {
-            setEffectiveDate(ev.target.value)
-    };
-    const handleAccountId = (ev: React.ChangeEvent<HTMLInputElement>) => {
-        setAccountId(ev.target.value);
+        const selectedDate = new Date(ev.target.value);
+        const currentDate = new Date();
+
+        if (selectedDate < currentDate) {
+            alert('the effective date must be after today');
+            setEffectiveDate('');
+        } else {
+            setEffectiveDate(ev.target.value);
+        }
     };
 
     const handleButtonToCancelForm = () => {
-        setShowFormProvisioning(false);
+        formProvisioning.setShowFormProvisioning(false);
     }
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        if (!amount || !reason || !effectiveDate || !accountId) {
+        if (!amount || !reason || !effectiveDate) {
             alert('Please complet the entire form');
         } else {
             const provisioningObject = {
                 amount: amount,
                 reason: reason,
                 effectiveDate: effectiveDate,
-                accountId: accountId
+                accountId: account.id,
             }
             fetch(toProviseAccount, {
                 method: 'POST',
@@ -53,7 +64,7 @@ const Provisioning: React.FC<ProvisioningFormInterface> = ({ showFormProvisionin
                 .then(res => res.json())
                 .then((data: ProvisioningInterface[]) => {
                     setProvisioning(data);
-                    console.log(data)
+                    window.location.href='/account'
                 })
                 .catch(error => console.error('Erreur:', error));
         }
@@ -85,12 +96,6 @@ const Provisioning: React.FC<ProvisioningFormInterface> = ({ showFormProvisionin
                             <p className="text-xl text-white">Effective date</p>
                             <div className="border-solid border-2 border-white rounded p-1">
                                 <input type="date" value={effectiveDate} onChange={handleEffectiveDate} className="w-96 outline-none text-xl bg-red-600 rounded pl-2 placeholder-slate-700 text-white" />
-                            </div>
-                        </div>
-                        <div className="flex flex-col gap-2">
-                            <p className="text-xl text-white">Account ID</p>
-                            <div className="border-solid border-2 border-white rounded p-1">
-                                <input type="text" value={accountId} onChange={handleAccountId} className="w-96 outline-none text-xl bg-red-600 rounded pl-2 placeholder-slate-700 text-white" />
                             </div>
                         </div>
                     </div>
