@@ -100,7 +100,7 @@ const AccountList = () => {
                             </div>
                         </section>
                         <div>
-                            <div className="flex flex-row  jusitfy-between border-solid border-b-2 border-black px-10 gap-64 py-4">
+                            <div className="flex flex-row  jusitfy-between border-solid border-b-2 border-black px-10 gap-64 py-4" style={{fontWeight:'bold'}}>
                                 <p>
                                     Name
                                 </p>
