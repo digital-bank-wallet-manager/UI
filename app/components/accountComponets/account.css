@@ -1,19 +1,43 @@
-
 .custom-scrollbar::-webkit-scrollbar {
-    width:12px; 
-   }
-   
-   .custom-scrollbar::-webkit-scrollbar-track {
+    width: 12px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
     background: rgb(202, 200, 200);
     border-radius: 10px;
-   }
-   
-   .custom-scrollbar::-webkit-scrollbar-thumb {
-    background: rgb(209, 8, 8); 
-    border-radius:10px
-   }
-   
-   .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-    background: rgb(226, 59, 59); 
-   }
-   
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: rgb(209, 8, 8);
+    border-radius: 10px
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgb(226, 59, 59);
+}
+
+.actionsItem {
+    text-align: center;
+    width: 100%;
+    transition: .2s;
+    color: white;
+
+    &&:hover {
+        background-color: rgb(153, 27, 27);
+    }
+}
+
+table {
+    width: 100%;
+}
+
+th {
+    padding: 20px;
+    text-align: center;
+    border-bottom:solid 2px black
+}
+
+td {
+    padding: 8px;
+    text-align: center;
+}
