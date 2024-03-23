@@ -12,10 +12,9 @@ export default function Header() {
     ]
     const [currentItem,setCurrentItem] = useState('/home');
 
-    const handleNavItem = (Item : string) => {
-        setCurrentItem(Item);
+    const handleNavItem = (item : string) => {
+        setCurrentItem(item)
     }
-    
     
 
     return (

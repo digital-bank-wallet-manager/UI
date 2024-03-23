@@ -19,7 +19,6 @@ const AccountDetails: React.FC<AccountDetailsProps> = ({ account, balance }) => 
     const [showFormBalanceHistory, setShowFormBalanceHsitory] = useState(false);
     const [detailsPage, setDetailsPage] = useState(true);
     const [balanceHistoryPage, setBalanceHistoryPage] = useState(false);
-    const [loanPage, setLoanPage] = useState(false)
 
 
 
@@ -42,11 +41,12 @@ const AccountDetails: React.FC<AccountDetailsProps> = ({ account, balance }) => 
     const handleDetailsPage = () => {
         setDetailsPage(true);
         setBalanceHistoryPage(false);
+        setBalanceHistoryPage(false);
     }
 
     const handleBalanceHistoryPage = () => {
-        setDetailsPage(false);
         setBalanceHistoryPage(true);
+        setDetailsPage(false);
     }
 
 
@@ -72,7 +72,7 @@ const AccountDetails: React.FC<AccountDetailsProps> = ({ account, balance }) => 
             }
             {
                 showFormBalanceHistory && (
-                    <BalanceHistoryForm formBalanceHistory={{showFormBalanceHistory , setShowFormBalanceHsitory}}></BalanceHistoryForm>
+                    <BalanceHistoryForm formBalanceHistory={{ showFormBalanceHistory, setShowFormBalanceHsitory }}></BalanceHistoryForm>
                 )
             }
             <main className={`${behindForm}${behindFormAccountUpdate}${behinFormBalanceHistory}`}>
@@ -80,14 +80,14 @@ const AccountDetails: React.FC<AccountDetailsProps> = ({ account, balance }) => 
                 <div className={`flex flex-row pt-32 gap-24 bg-slate-200 h-screen pl-16 pr-16$`}>
                     <section>
                         <div className="flex flex-col rounded-2xl bg-red-600 items-center  justify-center py-10" style={{ width: "350px" }}>
-                            <h1 className="text-2xl border-solid border-slate-200 border-b-8 w-full pl-5 text-white">Show/Actions</h1>
+                            <h1 className="text-2xl border-solid border-slate-200 border-b-8 w-full pl-5 text-white">Show / Actions</h1>
                             <p className={`actionsItem py-3  ${details}`} onClick={handleDetailsPage}>Details</p>
                             <p className={`actionsItem py-3 ${balanceHistory}`} onClick={handleBalanceHistoryPage}>Balance History</p>
                             <button type="button" className="text-white duration-75 hover:scale-110 flex flex-row items-center mt-8" onClick={handleBackButton}><IoChevronBackSharp /> Back</button>
                         </div>
                     </section>
                     {
-                        details ? (
+                        details && (
                             <div>
                                 <div className="flex flex-col gap-10 bg-white rounded-xl py-10" style={{ width: '60vw' }}>
                                     <h1 className="text-2xl border-solid border-slat-200 border-b-8 w-full pl-5 ">Account Details</h1>
@@ -109,7 +109,10 @@ const AccountDetails: React.FC<AccountDetailsProps> = ({ account, balance }) => 
                                     </div>
                                 </div>
                             </div>
-                        ) : (
+                        )
+                    }
+                    {
+                        balanceHistory && (
                             <div>
                                 <div className="flex flex-col gap-10 bg-white rounded-xl py-10" style={{ width: '60vw' }}>
                                     <h1 className="text-2xl border-solid border-slat-200 border-b-8 w-full pl-5 ">Balance history</h1>
@@ -120,13 +123,17 @@ const AccountDetails: React.FC<AccountDetailsProps> = ({ account, balance }) => 
                                                     <th>End date</th>
                                                     <th className="border-solid border-black border-l-2 border-r-2">Start date</th>
                                                     <th>Balance</th>
+                                                    <th  className="border-solid border-black border-l-2 border-r-2">Loan</th>
+                                                    <th>Loan Interest</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <tr>
                                                     <td>2024-03-05</td>
-                                                    <td  className="border-solid border-black border-l-2 border-r-2">2024-03-10</td>
+                                                    <td className="border-solid border-black border-l-2 border-r-2">2024-03-10</td>
                                                     <td>{balance.amount} MGA</td>
+                                                    <td  className="border-solid border-black border-l-2 border-r-2"> 1200 MGA</td>
+                                                    <td>1%</td>
                                                 </tr>
                                             </tbody>
                                         </table>
