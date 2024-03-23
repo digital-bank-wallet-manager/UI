@@ -17,3 +17,13 @@
     background: rgb(226, 59, 59); 
    }
    
+   .actionsItem{
+    text-align: center;
+    width: 100%;
+    transition: .2s;
+    color: white;
+     
+    &&:hover{
+        background-color: rgb(185,28,28);
+    }
+   }
