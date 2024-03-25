@@ -10,7 +10,6 @@ const AccountFormHome: React.FC<AccountFormInterface> = ({ showForm, setShowForm
     const [fName, setFName] = useState<string>('');
     const [bDate, setBDate] = useState<string>('');
     const [monthlySalary, setMonthlySalary] = useState(0);
-    const [currency, setCurrency] = useState<string>('MGA');
     const [account, setAccount] = useState<AccountInterface[]>([]);
 
     const insertAccount = 'http://localhost:8080/accounts/save';
@@ -45,7 +44,7 @@ const AccountFormHome: React.FC<AccountFormInterface> = ({ showForm, setShowForm
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        if (!lName || !fName || !bDate || !monthlySalary || !currency) {
+        if (!lName || !fName || !bDate || !monthlySalary) {
             alert('Please complet the entire form');
         } else {
             const accountObject = {
@@ -108,7 +107,7 @@ const AccountFormHome: React.FC<AccountFormInterface> = ({ showForm, setShowForm
                             <div className="flex flex-col gap-2">
                                 <p className="text-xl text-white">Currency</p>
                                 <div className="border-solid border-2 border-white rounded p-1">
-                                    <input type="text" maxLength={3} value={currency} onChange={(ev) => { setCurrency(ev.target.value) }} className=" w-32 outline-none text-xl bg-red-600 rounded px-2 placeholder-slate-700 text-center text-white uppercase" defaultValue={'MGA'} />
+                                    <p className=" w-24 outline-none text-xl bg-red-600 rounded px-2 text-center text-white uppercase">MGA</p>
                                 </div>
                             </div>
                         </div>

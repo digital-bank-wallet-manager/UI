@@ -7,11 +7,12 @@ import { FaPlus } from "react-icons/fa";
 import { CiSearch } from "react-icons/ci";
 import AccountFormAccount from "./accountFormAccount";
 import Header from "@/app/components/navgiationComponents/header";
+import BalanceWithLoanInterface from "@/app/interface/balanceWithLoan/balanceWithLoanInterface";
 
 const AccountList = () => {
 
     const [selectedAccount, setSelectedAccount] = useState<AccountInterface>();
-    const [selectedBalance, setSelectedBalance] = useState<BalanceInterface[]>([]);
+    const [selectedBalance, setSelectedBalance] = useState<BalanceWithLoanInterface>();
     const [accountList, setAccountList] = useState<AccountInterface[]>([]);
     const [search, setSearch] = useState('');
     const [showForm, setShowForm] = useState(false);
@@ -27,8 +28,9 @@ const AccountList = () => {
         setSelectedAccount(account);
         fetch(`${getAccountBalance}${account.id}`)
             .then(res => res.json())
-            .then((data: BalanceInterface[]) => {
+            .then((data: BalanceWithLoanInterface) => {
                 setSelectedBalance(data);
+                console.log(data)
             })
     };
 
@@ -36,7 +38,7 @@ const AccountList = () => {
         fetch(getAccountList)
             .then(res => res.json())
             .then((data: AccountInterface[]) => {
-                setAccountList(data);
+                setAccountList(data);   
             });
     }, []);
 
@@ -49,8 +51,8 @@ const AccountList = () => {
                 showForm &&
                 (<AccountFormAccount showForm={showForm} setShowForm={setShowForm}></AccountFormAccount>)
             }
-            {selectedAccount && selectedBalance && selectedBalance.length > 0 ? (
-                <AccountDetails account={selectedAccount} balance={selectedBalance[0]} />
+            {selectedAccount && selectedBalance  ? (
+                <AccountDetails account={selectedAccount} balance={selectedBalance} />
             ) : (accountList.length === 0 ? (
                 <main className={`${behindForm}`}>
                     <Header />
