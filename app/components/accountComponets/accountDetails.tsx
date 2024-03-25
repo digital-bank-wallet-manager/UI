@@ -7,10 +7,12 @@ import Provisioning from "../provisioning/provisioningForm";
 import Header from "../navgiationComponents/header";
 import AccountUpdateForm from "./accountUpdateform";
 import BalanceHistoryForm from "../balance/balanceHistoryForm";
+import CategoryInterface from "@/app/interface/category/categoryInterface";
+import BalanceWithLoanInterface from "@/app/interface/balanceWithLoan/balanceWithLoanInterface";
 
 export interface AccountDetailsProps {
     account: AccountInterface;
-    balance: BalanceInterface;
+    balance: BalanceWithLoanInterface;
 }
 
 const AccountDetails: React.FC<AccountDetailsProps> = ({ account, balance }) => {
@@ -19,15 +21,25 @@ const AccountDetails: React.FC<AccountDetailsProps> = ({ account, balance }) => 
     const [showFormBalanceHistory, setShowFormBalanceHsitory] = useState(false);
     const [detailsPage, setDetailsPage] = useState(true);
     const [balanceHistoryPage, setBalanceHistoryPage] = useState(false);
-
+    const [categoryCreditList,setCategoryCreditList] = useState<CategoryInterface[]>([]);
+    
+    const getCategoryType = 'http://localhost:8080/category';
 
 
     const handleBackButton = () => {
         window.location.href = '/account';
     }
 
+
     const handleFormProvisioning = () => {
         setShowFormProvisioning(true);
+        const credit = '/credit'
+        fetch(`${getCategoryType}${credit}`)
+        .then(res=>res.json())
+        .then((data:CategoryInterface[])=>{
+            console.log(data)
+            setCategoryCreditList(data)
+        })
     }
 
     const handleFormBalanceHistory = () => {
@@ -67,7 +79,7 @@ const AccountDetails: React.FC<AccountDetailsProps> = ({ account, balance }) => 
             }
             {
                 showFormProvisioning && (
-                    <Provisioning formProvisioning={{ showFormProvisioning, setShowFormProvisioning }} account={account}></Provisioning>
+                    <Provisioning formProvisioning={{ showFormProvisioning, setShowFormProvisioning }} account={account} subCategory={categoryCreditList}></Provisioning>
                 )
             }
             {
@@ -97,7 +109,7 @@ const AccountDetails: React.FC<AccountDetailsProps> = ({ account, balance }) => 
                                         <p>Date of birth: {account.birthdate}</p>
                                         <p>Monthly Pay: {account.monthlyPay} MGA</p>
                                         <p>Account Reference: {account.accountRef}</p>
-                                        <p>Actual Balance: {balance.amount} MGA</p>
+                                        <p>Actual Balance: {balance.balance.amount} MGA</p>
                                         <div className="flex flex-row gap-3 self-end">
                                             <button type="button" onClick={handleFormProvisioning} className="border-solid border-red-600 bg-red-600 border-2 rounded py-2  hover:bg-red-700 hover:border-red-700  transition duration-200 text-white w-52 mt-3">
                                                 Provide your balance
@@ -131,7 +143,7 @@ const AccountDetails: React.FC<AccountDetailsProps> = ({ account, balance }) => 
                                                 <tr>
                                                     <td>2024-03-05</td>
                                                     <td className="border-solid border-black border-l-2 border-r-2">2024-03-10</td>
-                                                    <td>{balance.amount} MGA</td>
+                                                    <td>{balance.balance.amount} MGA</td>
                                                     <td  className="border-solid border-black border-l-2 border-r-2"> 1200 MGA</td>
                                                     <td>1%</td>
                                                 </tr>
