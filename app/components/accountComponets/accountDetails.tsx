@@ -28,6 +28,7 @@ const AccountDetails: React.FC<AccountDetailsProps> = ({ account, balance }) => 
 
     const getCategoryType = 'http://localhost:8080/category';
     const getAccountBalance = 'http://localhost:8080/account/balance/';
+    const getAccountLoanAuth = 'http://localhost:8080/account/loan/';
     const getAccountLoan = 'http://localhost:8080/loan/';
 
     const handleClickChoseDate = () => {
@@ -38,6 +39,14 @@ const AccountDetails: React.FC<AccountDetailsProps> = ({ account, balance }) => 
                 console.log(data)
             })
     }
+    useEffect(() => {
+        if (balance.balance.amount > 0) {
+            fetch(`${getAccountLoanAuth}${account.id}`,{
+                method: 'PUT'
+            })
+                .then(res => res.json())
+        }
+    }, [])
 
     const handleBackButton = () => {
         window.location.href = '/account';
@@ -114,8 +123,8 @@ const AccountDetails: React.FC<AccountDetailsProps> = ({ account, balance }) => 
                             <h1 className="text-2xl border-solid border-slate-200 border-b-8 w-full pl-5 text-white">Show / Actions</h1>
                             <p className={`actionsItem py-3  ${details}`} onClick={handleDetailsPage}>Details</p>
                             <p className={`actionsItem py-3 ${balanceHistory}`} onClick={handleBalanceHistoryPage}>Actual Balance</p>
-                            <button type="button"className="border-solid border-white bg-white border-2 rounded py-2 mt-5  hover:bg-slate-200 hover:border-slate-200  transition duration-200 flex flex-row items-center gap-2  text-black  justify-center" style={{ width: "270px" }}>
-                                 Make Loan
+                            <button type="button" className="border-solid border-white bg-white border-2 rounded py-2 mt-5  hover:bg-slate-200 hover:border-slate-200  transition duration-200 flex flex-row items-center gap-2  text-black  justify-center" style={{ width: "270px" }}>
+                                Make Loan
                             </button>
                             <button type="button" className="text-white duration-75 hover:scale-110 flex flex-row items-center mt-8" onClick={handleBackButton}><IoChevronBackSharp /> Back</button>
                         </div>
