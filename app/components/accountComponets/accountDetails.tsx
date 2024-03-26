@@ -123,7 +123,7 @@ const AccountDetails: React.FC<AccountDetailsProps> = ({ account, balance }) => 
             }
             {
                 showLoanForm && (
-                    <LoanForm loanForm={{showLoanForm,setShowLoanForm}} account={account} balance={balance}></LoanForm>
+                    <LoanForm loanForm={{ showLoanForm, setShowLoanForm }} account={account} balance={balance}></LoanForm>
                 )
             }
             <main className={`${behindForm}${behindFormAccountUpdate}${behinFormBalanceHistory}${behindLoanForm}`}>
@@ -184,13 +184,16 @@ const AccountDetails: React.FC<AccountDetailsProps> = ({ account, balance }) => 
                                                 <tr>
                                                     <td>{balanceDate}</td>
                                                     <td className="border-solid border-black border-l-2 border-r-2">{balance.balance.amount} MGA</td>
-                                                    <td className="border-solid border-black border-l-2 border-r-2">{
-                                                        accountLoanList.map((aLoan) => (
-                                                            <div key={aLoan.id}>
-                                                                <p>{aLoan.amount}</p>
-                                                            </div>
-                                                        ))
-                                                    }</td>
+                                                    <td className="border-solid border-black border-l-2 border-r-2">
+                                                        {
+                                                            accountLoanList.length > 0 ? (
+                                                                accountLoanList.map((aLoan) => (
+                                                                    <div key={aLoan.id}>
+                                                                        <p>{aLoan.amount}</p>
+                                                                    </div>
+                                                                ))
+                                                            ) : 0
+                                                        }</td>
                                                     <td>{balance.loanEvolution.totalInterest}</td>
                                                 </tr>
                                             </tbody>
