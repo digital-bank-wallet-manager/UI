@@ -47,13 +47,13 @@ const BalanceHistoryForm: React.FC<BalanceHistoryProps> = ({formBalanceHistory})
                         <div className="flex flex-col gap-2">
                             <p className="text-xl text-white">Start date</p>
                             <div className="border-solid border-2 border-white rounded p-1">
-                                <input type="date" placeholder="0" value={startDate} onChange={handleStartDate} className="w-96 outline-none text-xl bg-red-600 rounded px-2 placeholder-slate-700 text-white" />
+                                <input type="date" placeholder="0" value={startDate} onChange={handleStartDate} className="w-96 outline-none text-xl bg-red-600 rounded px-2 placeholder-slate-700 text-white" required/>
                             </div>
                         </div>
                         <div className="flex flex-col gap-2">
                             <p className="text-xl text-white">End date</p>
                             <div className="border-solid border-2 border-white rounded p-1">
-                                <input type="date" placeholder="true/false" value={endDate} onChange={handleEndDate} className="w-96 outline-none text-xl bg-red-600 rounded px-2 placeholder-slate-700 text-white" />
+                                <input type="date" placeholder="true/false" value={endDate} onChange={handleEndDate} className="w-96 outline-none text-xl bg-red-600 rounded px-2 placeholder-slate-700 text-white" required/>
                             </div>
                         </div>
                     </div>

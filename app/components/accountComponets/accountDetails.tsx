@@ -10,6 +10,7 @@ import BalanceHistoryForm from "../balance/balanceHistoryForm";
 import CategoryInterface from "@/app/interface/category/categoryInterface";
 import BalanceWithLoanInterface from "@/app/interface/balanceWithLoan/balanceWithLoanInterface";
 import BankLoanInterface from "@/app/interface/bankLoan/bankLoanInterface";
+import LoanForm from "../loan/loanForm";
 
 export interface AccountDetailsProps {
     account: AccountInterface;
@@ -21,6 +22,7 @@ const AccountDetails: React.FC<AccountDetailsProps> = ({ account, balance }) => 
     const [balanceAtDate, setBalanceAtDate] = useState<BalanceWithLoanInterface[]>([]);
     const [showFormAccountUpdate, setShowFormAccountUpdate] = useState(false);
     const [showFormBalanceHistory, setShowFormBalanceHsitory] = useState(false);
+    const [showLoanForm, setShowLoanForm] = useState(false);
     const [detailsPage, setDetailsPage] = useState(true);
     const [balanceHistoryPage, setBalanceHistoryPage] = useState(false);
     const [categoryCreditList, setCategoryCreditList] = useState<CategoryInterface[]>([]);
@@ -41,7 +43,7 @@ const AccountDetails: React.FC<AccountDetailsProps> = ({ account, balance }) => 
     }
     useEffect(() => {
         if (balance.balance.amount > 0) {
-            fetch(`${getAccountLoanAuth}${account.id}`,{
+            fetch(`${getAccountLoanAuth}${account.id}`, {
                 method: 'PUT'
             })
                 .then(res => res.json())
@@ -89,12 +91,16 @@ const AccountDetails: React.FC<AccountDetailsProps> = ({ account, balance }) => 
             })
     }
 
+    const handleMakeLoanBtn = () => {
+        setShowLoanForm(true)
+    }
 
     const balanceDate = new Date(balance.balance.dateTime).toLocaleString();
 
     const behindForm = showFormProvisioning ? 'opacity-50 z-30 pointer-events-none' : '';
     const behindFormAccountUpdate = showFormAccountUpdate ? 'opacity-50 z-30 pointer-events-none' : '';
     const behinFormBalanceHistory = showFormBalanceHistory ? 'opacity-50 z-30 pointer-events-none' : '';
+    const behindLoanForm = showLoanForm ? 'opacity-50 z-30 pointer-events-none' : '';
     const details = detailsPage ? 'bg-red-800 text-white' : '';
     const balanceHistory = balanceHistoryPage ? 'bg-red-800 text-white' : '';
 
@@ -115,7 +121,12 @@ const AccountDetails: React.FC<AccountDetailsProps> = ({ account, balance }) => 
                     <BalanceHistoryForm formBalanceHistory={{ showFormBalanceHistory, setShowFormBalanceHsitory }}></BalanceHistoryForm>
                 )
             }
-            <main className={`${behindForm}${behindFormAccountUpdate}${behinFormBalanceHistory}`}>
+            {
+                showLoanForm && (
+                    <LoanForm loanForm={{showLoanForm,setShowLoanForm}} account={account} balance={balance}></LoanForm>
+                )
+            }
+            <main className={`${behindForm}${behindFormAccountUpdate}${behinFormBalanceHistory}${behindLoanForm}`}>
                 <Header />
                 <div className={`flex flex-row pt-32 gap-24 bg-slate-200 h-screen pl-16 pr-16$`}>
                     <section>
@@ -123,7 +134,7 @@ const AccountDetails: React.FC<AccountDetailsProps> = ({ account, balance }) => 
                             <h1 className="text-2xl border-solid border-slate-200 border-b-8 w-full pl-5 text-white">Show / Actions</h1>
                             <p className={`actionsItem py-3  ${details}`} onClick={handleDetailsPage}>Details</p>
                             <p className={`actionsItem py-3 ${balanceHistory}`} onClick={handleBalanceHistoryPage}>Actual Balance</p>
-                            <button type="button" className="border-solid border-white bg-white border-2 rounded py-2 mt-5  hover:bg-slate-200 hover:border-slate-200  transition duration-200 flex flex-row items-center gap-2  text-black  justify-center" style={{ width: "270px" }}>
+                            <button type="button" onClick={handleMakeLoanBtn} className="border-solid border-white bg-white border-2 rounded py-2 mt-5  hover:bg-slate-200 hover:border-slate-200  transition duration-200 flex flex-row items-center gap-2  text-black  justify-center" style={{ width: "270px" }}>
                                 Make Loan
                             </button>
                             <button type="button" className="text-white duration-75 hover:scale-110 flex flex-row items-center mt-8" onClick={handleBackButton}><IoChevronBackSharp /> Back</button>
