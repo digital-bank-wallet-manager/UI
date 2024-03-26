@@ -1,7 +1,7 @@
 export interface BalanceInterface{
     id: string,
     amount: number,
-    dateTime: Date,
+    dateTime: string,
     accountId: string,
     transactionId: string
 }

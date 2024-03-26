@@ -8,6 +8,7 @@ import { CiSearch } from "react-icons/ci";
 import AccountFormAccount from "./accountFormAccount";
 import Header from "@/app/components/navgiationComponents/header";
 import BalanceWithLoanInterface from "@/app/interface/balanceWithLoan/balanceWithLoanInterface";
+import BankLoanInterface from "@/app/interface/bankLoan/bankLoanInterface";
 
 const AccountList = () => {
 
@@ -31,14 +32,14 @@ const AccountList = () => {
             .then((data: BalanceWithLoanInterface) => {
                 setSelectedBalance(data);
                 console.log(data)
-            })
+            }) 
     };
 
     useEffect(() => {
         fetch(getAccountList)
             .then(res => res.json())
             .then((data: AccountInterface[]) => {
-                setAccountList(data);   
+                setAccountList(data);
             });
     }, []);
 
@@ -51,7 +52,7 @@ const AccountList = () => {
                 showForm &&
                 (<AccountFormAccount showForm={showForm} setShowForm={setShowForm}></AccountFormAccount>)
             }
-            {selectedAccount && selectedBalance  ? (
+            {selectedAccount && selectedBalance ? (
                 <AccountDetails account={selectedAccount} balance={selectedBalance} />
             ) : (accountList.length === 0 ? (
                 <main className={`${behindForm}`}>
@@ -87,7 +88,7 @@ const AccountList = () => {
                 </main>
             ) : (
                 <main className={`${behindForm}`}>
-                    <Header/>
+                    <Header />
                     <div className={`flex flex-row pt-32 gap-24 bg-slate-200 h-screen pl-16 pr-16${behindForm}`}>
                         <section>
                             <div className="flex flex-col gap-10 rounded-2xl bg-red-600 items-center  justify-center py-10" style={{ width: "350px" }}>
@@ -102,7 +103,7 @@ const AccountList = () => {
                             </div>
                         </section>
                         <div>
-                            <div className="flex flex-row  jusitfy-between border-solid border-b-2 border-black px-10 gap-64 py-4" style={{fontWeight:'bold'}}>
+                            <div className="flex flex-row  jusitfy-between border-solid border-b-2 border-black px-10 gap-64 py-4" style={{ fontWeight: 'bold' }}>
                                 <p>
                                     Name
                                 </p>

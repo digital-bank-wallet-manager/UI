@@ -71,7 +71,7 @@ const Provisioning: React.FC<provisioningProps> = ({ formProvisioning, account, 
                 .then(res => res.json())
                 .then((data: ProvisioningInterface[]) => {
                     setProvisioning(data);
-                    window.location.href=('/account')
+                    window.location.href = ('/account')
                 })
                 .catch(error => console.error('Erreur:', error));
         }
@@ -92,6 +92,7 @@ const Provisioning: React.FC<provisioningProps> = ({ formProvisioning, account, 
     }
 
     const clickedCategorie = categoryName ? categoryName : 'Categories';
+    const hoverCategories = isOpen ? 'bg-red-200' : '';
 
 
     'block px-4 py-2 text-sm'
@@ -114,7 +115,7 @@ const Provisioning: React.FC<provisioningProps> = ({ formProvisioning, account, 
 
                             <Menu as="div" className="relative inline-block text-left">
                                 <div>
-                                    <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 rounded bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-white hover:bg-red-200" onClick={handleClickeCategories}>
+                                    <Menu.Button className={`inline-flex w-full justify-center gap-x-1.5 rounded bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-white ${hoverCategories} hover:bg-red-200`} onClick={handleClickeCategories}>
                                         {clickedCategorie}
                                         {
                                             isOpen ? (
