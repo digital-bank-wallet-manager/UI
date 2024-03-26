@@ -1,6 +1,6 @@
 'use client'
 import { AccountInterface } from "@/app/interface/account/accountInterface";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import AccountUpdateFormInterface from "@/app/interface/account/accountFormUpdateInterface";
 import { MdCancel } from "react-icons/md";
 
@@ -10,16 +10,26 @@ export interface AccountUpdateProps {
 }
 
 const AccountUpdateForm: React.FC<AccountUpdateProps> = ({ formAccountUpdate, account }) => {
+    const [salaryDone, setSalaryDone] = useState('')
     const [newMonthlyPay, setNewMonthlyPay] = useState(0);
-    const [loan,setLoan] = useState('')
+    const updateSalary = 'http://localhost:8080/account/salary/';
 
     const handleNewMonthlyPay = (ev: React.ChangeEvent<HTMLInputElement>) => {
         const val = parseInt(ev.target.value)
         setNewMonthlyPay(val)
     }
-    const handleLoan = (ev: React.ChangeEvent<HTMLInputElement>) => {
-        setLoan(ev.target.value)
+
+    const handleSumbit = () => {
+        fetch(`${updateSalary}${account.id}/${newMonthlyPay}`, {
+            method: 'PUT'
+        })
+            .then(res => res.json())
+            .then(data => {
+                setSalaryDone(data);
+            })
+        window.location.href = '/account';
     }
+
 
 
     const handleButtonToCancelForm = () => {
@@ -39,14 +49,8 @@ const AccountUpdateForm: React.FC<AccountUpdateProps> = ({ formAccountUpdate, ac
                                 <input type="number" placeholder="0" value={newMonthlyPay} onChange={handleNewMonthlyPay} className="w-96 outline-none text-xl bg-red-600 rounded px-2 placeholder-slate-700 text-white" />
                             </div>
                         </div>
-                        <div className="flex flex-col gap-2">
-                            <p className="text-xl text-white">loan autorization</p>
-                            <div className="border-solid border-2 border-white rounded p-1">
-                                <input type="text" placeholder="true/false" value={loan} onChange={handleLoan} className="w-96 outline-none text-xl bg-red-600 rounded px-2 placeholder-slate-700 text-white" />
-                            </div>
-                        </div>
                     </div>
-                    <button type="submit" className="border-solid border-white border-2 rounded px-2 py-2 w-56 bg-white hover:bg-slate-200 hover:border-slate-200  transition duration-200 text-xl text-black ">
+                    <button onClick={handleSumbit} type="button" className="border-solid border-white border-2 rounded px-2 py-2 w-56 bg-white hover:bg-slate-200 hover:border-slate-200  transition duration-200 text-xl text-black ">
                         Update Account
                     </button>
                 </form>
