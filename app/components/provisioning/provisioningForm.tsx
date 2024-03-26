@@ -37,12 +37,16 @@ const Provisioning: React.FC<provisioningProps> = ({ formProvisioning, account, 
     const handleEffectiveDate = (ev: React.ChangeEvent<HTMLInputElement>) => {
         const selectedDate = new Date(ev.target.value);
         const currentDate = new Date();
+        currentDate.setHours(0, 0, 0, 0); 
 
-        if (selectedDate < currentDate) {
-            alert('the effective date must be after today');
-            setEffectiveDate('');
+        const selectedTimestamp = selectedDate.getTime();
+        const currentTimestamp = currentDate.getTime();
+
+        if (selectedTimestamp >= currentTimestamp) {
+            setEffectiveDate(ev.target.value); 
         } else {
-            setEffectiveDate(ev.target.value);
+            alert('date must be after today');
+            setEffectiveDate('');
         }
     }
 
@@ -52,29 +56,25 @@ const Provisioning: React.FC<provisioningProps> = ({ formProvisioning, account, 
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        if (!amount || !effectiveDate) {
-            alert('Please complet the entire form');
-        } else {
-            const provisioningObject = {
-                amount: amount,
-                reason: reason,
-                effectiveDate: effectiveDate,
-                accountId: account.id,
-            }
-            fetch(`${toProviseAccount}${categoryId}`, {
-                method: 'POST',
-                headers: {
-                    'content-type': 'application/json',
-                },
-                body: JSON.stringify(provisioningObject),
-            })
-                .then(res => res.json())
-                .then((data: ProvisioningInterface[]) => {
-                    setProvisioning(data);
-                    window.location.href=('/account')
-                })
-                .catch(error => console.error('Erreur:', error));
+        const provisioningObject = {
+            amount: amount,
+            reason: reason,
+            effectiveDate: effectiveDate,
+            accountId: account.id,
         }
+        fetch(`${toProviseAccount}${categoryId}`, {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json',
+            },
+            body: JSON.stringify(provisioningObject),
+        })
+            .then(res => res.json())
+            .then((data: ProvisioningInterface[]) => {
+                setProvisioning(data);
+            })
+            .catch(error => console.error('Erreur:', error));
+            formProvisioning.setShowFormProvisioning(false);
     };
 
     const handleChosecategory = (id: number, name: string) => {
@@ -92,6 +92,7 @@ const Provisioning: React.FC<provisioningProps> = ({ formProvisioning, account, 
     }
 
     const clickedCategorie = categoryName ? categoryName : 'Categories';
+    const hoverCategories = isOpen ? 'bg-red-200' : '';
 
 
     'block px-4 py-2 text-sm'
@@ -105,7 +106,7 @@ const Provisioning: React.FC<provisioningProps> = ({ formProvisioning, account, 
                         <div className="flex flex-col gap-2">
                             <p className="text-xl text-white">Amount</p>
                             <div className="border-solid border-2 border-white rounded p-1">
-                                <input type="number" placeholder="0" value={amount} onChange={handleAmount} className="w-96 outline-none text-xl bg-red-600 rounded px-2 placeholder-slate-700 text-white" />
+                                <input type="number" placeholder="0" value={amount} onChange={handleAmount} className="w-96 outline-none text-xl bg-red-600 rounded px-2 placeholder-slate-700 text-white" required/>
                             </div>
                         </div>
                         <div className="flex flex-col gap-2">
@@ -114,7 +115,7 @@ const Provisioning: React.FC<provisioningProps> = ({ formProvisioning, account, 
 
                             <Menu as="div" className="relative inline-block text-left">
                                 <div>
-                                    <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 rounded bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-white hover:bg-red-200" onClick={handleClickeCategories}>
+                                    <Menu.Button className={`inline-flex w-full justify-center gap-x-1.5 rounded bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-white ${hoverCategories} hover:bg-red-200`} onClick={handleClickeCategories}>
                                         {clickedCategorie}
                                         {
                                             isOpen ? (
@@ -152,7 +153,7 @@ const Provisioning: React.FC<provisioningProps> = ({ formProvisioning, account, 
                         <div className="flex flex-col gap-2">
                             <p className="text-xl text-white">Effective date</p>
                             <div className="border-solid border-2 border-white rounded p-1">
-                                <input type="date" value={effectiveDate} onChange={handleEffectiveDate} className="w-96 outline-none text-xl bg-red-600 rounded pl-2 placeholder-slate-700 text-white" />
+                                <input type="date" value={effectiveDate} onChange={handleEffectiveDate} className="w-96 outline-none text-xl bg-red-600 rounded pl-2 placeholder-slate-700 text-white" required/>
                             </div>
                         </div>
                     </div>

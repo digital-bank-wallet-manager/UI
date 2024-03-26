@@ -44,29 +44,25 @@ const AccountFormAccount: React.FC<AccountFormInterface> = ({ showForm, setShowF
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        if (!lName || !fName || !bDate || !monthlySalary) {
-            alert('Please complet the entire form');
-        } else {
-            const accountObject = {
-                firstName: fName,
-                lastName: lName,
-                birthdate: bDate,
-                monthlyPay: monthlySalary
-            }
-            fetch(insertAccount, {
-                method: 'POST',
-                headers: {
-                    'content-type': 'application/json',
-                },
-                body: JSON.stringify(accountObject),
-            })
-                .then(res => res.json())
-                .then((data: AccountInterface[]) => {
-                    setAccount(data);
-                    window.location.href = '/account'
-                })
-                .catch(error => console.error('Erreur:', error));
+        const accountObject = {
+            firstName: fName,
+            lastName: lName,
+            birthdate: bDate,
+            monthlyPay: monthlySalary
         }
+        fetch(insertAccount, {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json',
+            },
+            body: JSON.stringify(accountObject),
+        })
+            .then(res => res.json())
+            .then((data: AccountInterface[]) => {
+                setAccount(data);
+                window.location.href = '/account'
+            })
+            .catch(error => console.error('Erreur:', error));
     };
 
 
@@ -80,26 +76,26 @@ const AccountFormAccount: React.FC<AccountFormInterface> = ({ showForm, setShowF
                         <div className="flex flex-col gap-2">
                             <p className="text-xl text-white">Last Name</p>
                             <div className="border-solid border-2 border-white rounded p-1">
-                                <input type="text" placeholder="Last name" value={lName} onChange={handleLNameChange} className="w-96 outline-none text-xl bg-red-600 rounded px-2 placeholder-slate-700 text-white " />
+                                <input type="text" placeholder="Last name" value={lName} onChange={handleLNameChange} className="w-96 outline-none text-xl bg-red-600 rounded px-2 placeholder-slate-700 text-white "  required/>
                             </div>
                         </div>
                         <div className="flex flex-col gap-2">
                             <p className="text-xl text-white">First Name</p>
                             <div className="border-solid border-2 border-white rounded p-1">
-                                <input type="text" placeholder="First name" value={fName} onChange={handleFNameChange} className="w-96 outline-none text-xl bg-red-600 rounded px-2 placeholder-slate-700 text-white" />
+                                <input type="text" placeholder="First name" value={fName} onChange={handleFNameChange} className="w-96 outline-none text-xl bg-red-600 rounded px-2 placeholder-slate-700 text-white" required/>
                             </div>
                         </div>
                         <div className="flex flex-col gap-2">
                             <p className="text-xl text-white">Birth date</p>
                             <div className="border-solid border-2 border-white rounded p-1">
-                                <input type="date" value={bDate} onChange={handleBDate} className="w-96 outline-none text-xl bg-red-600 rounded pl-2 placeholder-slate-700 text-white" />
+                                <input type="date" value={bDate} onChange={handleBDate} className="w-96 outline-none text-xl bg-red-600 rounded pl-2 placeholder-slate-700 text-white" required/>
                             </div>
                         </div>
                         <div className="flex flex-row gap-5 ">
                             <div className="flex flex-col gap-2">
                                 <p className="text-xl text-white">Monthly salary</p>
                                 <div className="border-solid border-2 border-white rounded p-1">
-                                    <input type="number" placeholder="0" value={monthlySalary} onChange={handleMonthly} className=" outline-none text-xl bg-red-600 rounded px-2 placeholder-slate-700 text-white" />
+                                    <input type="number" placeholder="0" value={monthlySalary} onChange={handleMonthly} className=" outline-none text-xl bg-red-600 rounded px-2 placeholder-slate-700 text-white" required/>
                                 </div>
                             </div>
                             <div className="flex flex-col gap-2">
