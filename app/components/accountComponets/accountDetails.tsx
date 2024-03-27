@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { AccountInterface } from "@/app/interface/account/accountInterface";
 import { IoChevronBackSharp } from "react-icons/io5";
-import { BalanceInterface } from "@/app/interface/balance/balanceInterface";
 import { useState } from "react";
 import Provisioning from "../provisioning/provisioningForm";
 import Header from "../navgiationComponents/header";
@@ -19,7 +18,6 @@ export interface AccountDetailsProps {
 
 const AccountDetails: React.FC<AccountDetailsProps> = ({ account, balance }) => {
     const [showFormProvisioning, setShowFormProvisioning] = useState(false);
-    const [balanceAtDate, setBalanceAtDate] = useState<BalanceWithLoanInterface[]>([]);
     const [showFormAccountUpdate, setShowFormAccountUpdate] = useState(false);
     const [showFormBalanceHistory, setShowFormBalanceHsitory] = useState(false);
     const [showLoanForm, setShowLoanForm] = useState(false);
@@ -28,27 +26,9 @@ const AccountDetails: React.FC<AccountDetailsProps> = ({ account, balance }) => 
     const [categoryCreditList, setCategoryCreditList] = useState<CategoryInterface[]>([]);
     const [accountLoanList, setAccountLoanList] = useState<BankLoanInterface[]>([]);
 
-    const getCategoryType = 'http://localhost:8080/category';
-    const getAccountBalance = 'http://localhost:8080/account/balance/';
-    const getAccountLoanAuth = 'http://localhost:8080/account/loan/';
+    const getCategoryType = 'http://localhost:8080/category';  
     const getAccountLoan = 'http://localhost:8080/loan/';
 
-    const handleClickChoseDate = () => {
-        fetch(`${getAccountBalance}${account.id}/${balance.balance.dateTime}`)
-            .then(res => res.json())
-            .then((data: BalanceWithLoanInterface[]) => {
-                setBalanceAtDate(data)
-                console.log(data)
-            })
-    }
-    useEffect(() => {
-        if (balance.balance.amount > 0) {
-            fetch(`${getAccountLoanAuth}${account.id}`, {
-                method: 'PUT'
-            })
-                .then(res => res.json())
-        }
-    }, [])
 
     const handleBackButton = () => {
         window.location.href = '/account';
@@ -117,9 +97,9 @@ const AccountDetails: React.FC<AccountDetailsProps> = ({ account, balance }) => 
                 )
             }
             {
-                showFormBalanceHistory && (
-                    <BalanceHistoryForm formBalanceHistory={{ showFormBalanceHistory, setShowFormBalanceHsitory }}></BalanceHistoryForm>
-                )
+                showFormBalanceHistory &&(
+                    <BalanceHistoryForm formBalanceHistory={{ showFormBalanceHistory, setShowFormBalanceHsitory }} account={account}></BalanceHistoryForm>
+                ) 
             }
             {
                 showLoanForm && (
@@ -151,11 +131,7 @@ const AccountDetails: React.FC<AccountDetailsProps> = ({ account, balance }) => 
                                         <p>Date of birth: {account.birthdate}</p>
                                         <p>Monthly Pay: {account.monthlyPay} MGA</p>
                                         <p>Account Reference: {account.accountRef}</p>
-                                        <p>Actual Balance: {balance.balance.amount} MGA</p>
-                                        <div className="flex flex-row gap-3 self-end">
-                                            <button type="button" onClick={handleFormProvisioning} className="border-solid border-red-600 bg-red-600 border-2 rounded py-2  hover:bg-red-700 hover:border-red-700  transition duration-200 text-white w-52 mt-3">
-                                                Provide your balance
-                                            </button>
+                                        <div className=" self-end">
                                             <button type="button" onClick={handleFormAccountUpdate} className="border-solid border-red-600 bg-white border-2 rounded py-2  hover:bg-red-100   transition duration-200 text-red-700 w-52 mt-3">
                                                 Update account
                                             </button>
@@ -177,7 +153,8 @@ const AccountDetails: React.FC<AccountDetailsProps> = ({ account, balance }) => 
                                                     <th>Date</th>
                                                     <th className="border-solid border-black border-l-2 border-r-2">Balance</th>
                                                     <th className="border-solid border-black border-l-2 border-r-2">Loan</th>
-                                                    <th>Loan Interest</th>
+                                                    <th className="border-solid border-black border-l-2 border-r-2">left to pay</th>
+                                                    <th>Total Interest</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -189,18 +166,22 @@ const AccountDetails: React.FC<AccountDetailsProps> = ({ account, balance }) => 
                                                             accountLoanList.length > 0 ? (
                                                                 accountLoanList.map((aLoan) => (
                                                                     <div key={aLoan.id}>
-                                                                        <p>{aLoan.amount}</p>
+                                                                        <p>{aLoan.amount} MGA</p>
                                                                     </div>
                                                                 ))
-                                                            ) : 0
+                                                            ) : '   0 MGA'
                                                         }</td>
-                                                    <td>{balance.loanEvolution.totalInterest}</td>
+                                                    <td className="border-solid border-black border-l-2 border-r-2">{balance.loanEvolution.rest} MGA</td>
+                                                    <td>{balance.loanEvolution.totalInterest} %</td>
                                                 </tr>
                                             </tbody>
                                         </table>
-                                        <div className="flex flex-row gap-3 self-end">
+                                        <div className="flex flex-row gap-3 self-end mt-10">
+                                            <button type="button" onClick={handleFormProvisioning} className="border-solid border-red-600 bg-red-600 border-2 rounded py-2  hover:bg-red-700 hover:border-red-700  transition duration-200 text-white w-52 mt-3">
+                                                Provide your balance
+                                            </button>
                                             <button type="button" onClick={handleFormBalanceHistory} className="border-solid border-red-600 bg-red-600 border-2 rounded py-2  hover:bg-red-700 hover:border-red-700  transition duration-200 text-white w-52 mt-3">
-                                                Select date
+                                                Balance History
                                             </button>
                                         </div>
                                     </div>

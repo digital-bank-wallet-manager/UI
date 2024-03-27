@@ -31,7 +31,6 @@ const AccountList = () => {
             .then(res => res.json())
             .then((data: BalanceWithLoanInterface) => {
                 setSelectedBalance(data);
-                console.log(data)
             }) 
     };
 

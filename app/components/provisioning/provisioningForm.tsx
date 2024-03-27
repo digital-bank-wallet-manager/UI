@@ -74,7 +74,7 @@ const Provisioning: React.FC<provisioningProps> = ({ formProvisioning, account, 
                 setProvisioning(data);
             })
             .catch(error => console.error('Erreur:', error));
-            formProvisioning.setShowFormProvisioning(false);
+            window.location.href='/account'
     };
 
     const handleChosecategory = (id: number, name: string) => {

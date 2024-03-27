@@ -32,13 +32,13 @@ const LoanForm: React.FC<LoanFormProps> = ({ loanForm, account, balance }) => {
     const handleLoanDate = (ev: React.ChangeEvent<HTMLInputElement>) => {
         const selectedDate = new Date(ev.target.value);
         const currentDate = new Date();
-        currentDate.setHours(0, 0, 0, 0); 
+        currentDate.setHours(0, 0, 0, 0);
 
         const selectedTimestamp = selectedDate.getTime();
         const currentTimestamp = currentDate.getTime();
 
         if (selectedTimestamp >= currentTimestamp) {
-            setLoanDate(ev.target.value); 
+            setLoanDate(ev.target.value);
         } else {
             alert('date must be after today');
             setLoanDate('');
@@ -56,7 +56,7 @@ const LoanForm: React.FC<LoanFormProps> = ({ loanForm, account, balance }) => {
             amount: amount,
             loanDate: loanDate,
             interestSevenDay: 1,
-            interestAboveSevenday: 2
+            interestAboveSevenDay: 2
         }
         if (balance.balance.amount <= 0) {
             alert('you can not make loan because your balance is not enough')
@@ -70,9 +70,11 @@ const LoanForm: React.FC<LoanFormProps> = ({ loanForm, account, balance }) => {
                 body: JSON.stringify(loanObject)
             })
                 .then(res => res.json())
-                .then((data) => {
+                .then((data:BankLoanInterface) => {
                     setAccountLoan(data)
+                    console.log(data)
                 })
+                window.location.href='/account'
         }
     }
 
@@ -87,13 +89,13 @@ const LoanForm: React.FC<LoanFormProps> = ({ loanForm, account, balance }) => {
                             <div className="flex flex-col gap-2">
                                 <p className="text-xl text-white">Amount</p>
                                 <div className="border-solid border-2 border-white rounded p-1">
-                                    <input type="number" placeholder="0" value={amount} onChange={handleAmount} className="w-96 outline-none text-xl bg-red-600 rounded px-2 placeholder-slate-700 text-white" />
+                                    <input type="number" placeholder="0" value={amount} onChange={handleAmount} className="w-96 outline-none text-xl bg-red-600 rounded px-2 placeholder-slate-700 text-white" required />
                                 </div>
                             </div>
                             <div className="flex flex-col gap-2">
                                 <p className="text-xl text-white">Effective Date</p>
                                 <div className="border-solid border-2 border-white rounded p-1">
-                                    <input type="date" onChange={handleLoanDate} value={loanDate}  placeholder="0" className="w-96 outline-none text-xl bg-red-600 rounded px-2 placeholder-slate-700 text-white" />
+                                    <input type="date" onChange={handleLoanDate} value={loanDate} placeholder="0" className="w-96 outline-none text-xl bg-red-600 rounded px-2 placeholder-slate-700 text-white" required />
                                 </div>
                             </div>
                         </div>
